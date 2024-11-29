@@ -26,12 +26,19 @@ for line in in_file:
         output('lea percent_d(%rip), %rdi')
         output(f'mov {name}(%rip), %rsi')
         output('call printf')
+    elif words[0] == 'printchar':
+        variable = words[1]
+        output('lea percent_c(%rip), %rdi')
+        output(f'mov {variable}(%rip), %rsi')
+        output('call printf')
 
 output('''pop %rbp
 ret 
 
 .data
 hello: .string "hello, world!\\n"
-percent_d: .string "%d\\n"''')
+percent_d: .string "%d\\n"
+percent_c : .string "%c"''')
+
 for name in variables:
     output(f'{name}: .quad {variables[name]}')
