@@ -31,6 +31,11 @@ for line in in_file:
         output('lea percent_c(%rip), %rdi')
         output(f'mov {variable}(%rip), %rsi')
         output('call printf')
+    elif words[2] == '+=':
+        lhs = words[0]
+        rhs = words[2]
+        output(f'mov {rhs}(%rip), %rdi')
+        output(f'add %rdi, {lhs}(%rip)')
 
 output('''pop %rbp
 ret 
@@ -38,7 +43,7 @@ ret
 .data
 hello: .string "hello, world!\\n"
 percent_d: .string "%d\\n"
-percent_c : .string "%c"''')
+percent_c: .string "%c"''')
 
 for name in variables:
     output(f'{name}: .quad {variables[name]}')
